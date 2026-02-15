@@ -15,8 +15,16 @@ void app_main(void)
 {
     Lcd_screen screen;
     lcd_init(&screen, SDA, SCL);
-    lcd_print(&screen, "HELLO", 1, 5);
-    esp_rom_delay_us(500000);
+    lcd_print(&screen, "HELLO", 1, 0);
+    esp_rom_delay_us(2000000);
+    //lcd_clear(&screen);
+
+    lcd_print(&screen, " HELLO", 1, 0);
+    esp_rom_delay_us(2000000);
+    //lcd_clear(&screen);
+
+    lcd_print(&screen, "  HELLO", 1, 0);
+    esp_rom_delay_us(2000000);
     //lcd_clear(&screen);
 }
 
