@@ -8,11 +8,11 @@ void application_init(Application* app)
 
 void add_company(Application* app, const char* name)
 {
-    app->companies[size].name = name;
-    size++;
+    app->companies[app->size].name = name;
+    app->size++;
 }
 
-void add_payment(Application* app, const char* name, uint32_t payment)
+void add_payment(const Application* app, const char* name, uint32_t payment)
 {
 
 }
