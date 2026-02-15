@@ -13,7 +13,7 @@
 
 void app_main(void)
 {
-   printf("%u\n", sizeof(uint24_t));
+   
 }
 
 
