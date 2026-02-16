@@ -1,2 +1,2 @@
-idf_component_register(SRCS "inlUppgift.c" "lcd-screen.c" "companies.c" "application.c"
+idf_component_register(SRCS "inlUppgift.c" "lcd-screen.c" "companies.c" "application.c" "insertion-sort.c"
                     INCLUDE_DIRS ".")

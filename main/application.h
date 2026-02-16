@@ -1,16 +1,20 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 #include "companies.h"
-// ADD RING BUFFER!
+
+#define MAX_COMPANIES 20
 typedef struct Application
 {
-    Company companies[20];
+    Company companies[MAX_COMPANIES];
+    uint8_t indexes[MAX_COMPANIES];
+
     uint8_t capacity;
     uint8_t size;
 }Application;
 
 void application_init(Application*);
-void add_company(Application*, const char*);
+int add_company(Application*, const char*);
+int remove_company(Application*, const char*);
 void add_payment(const Application*, const char* name, uint32_t);
 
 #endif
