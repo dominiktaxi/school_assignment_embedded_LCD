@@ -16,5 +16,7 @@ void application_init(Application*);
 int add_company(Application*, const char*);
 int remove_company(Application*, const char*);
 void add_payment(const Application*, const char* name, uint32_t);
+void sort(Application*);
+void list_companies(Application*);
 
 #endif

@@ -2,6 +2,6 @@
 #define INSERTION_SORT_H
 #include "application.h"
 
-void sort(Application*);
+void sort_companies(Application*);
 
 #endif

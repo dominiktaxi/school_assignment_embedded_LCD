@@ -1,5 +1,6 @@
 #include "application.h"
 #include "utils.h"
+#include "insertion-sort.h"
 void application_init(Application* app)
 {
     app->capacity = (uint8_t)(sizeof(app->companies) / sizeof(app->companies[0]));
@@ -41,4 +42,17 @@ int remove_company(Application* app, const char* name)
 void add_payment(const Application* app, const char* name, uint32_t payment)
 {
 
+}
+
+void sort(Application* app)
+{
+    sort_companies(app);
+}
+
+void list_companies(Application* app)
+{
+    for(int i = 0; i < app->size; i++)
+    {
+        printf("%s\n", app->companies[ app->indexes[ i ] ].name);
+    }
 }

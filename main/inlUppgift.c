@@ -4,7 +4,7 @@
 #include "driver/gpio.h"
 #include "driver/i2c.h"
 
-
+#include "application.h"
 
 #define SDA GPIO_NUM_5
 #define SCL GPIO_NUM_4 // (SCL)
@@ -13,7 +13,14 @@
 
 void app_main(void)
 {
-   
+   Application app;
+   add_company(&app, "kalle");
+   add_company(&app, "pelle");
+   add_company(&app, "fisk");
+   add_company(&app, "abraham");
+
+   sort(&app);
+   list_companies(&app);
 }
 
 

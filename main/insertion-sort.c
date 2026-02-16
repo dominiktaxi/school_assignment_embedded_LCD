@@ -16,37 +16,39 @@ void sort_companies(Application* app)
     {
         uint8_t k = 0;
         uint8_t* indexes = app->indexes;
-        uint8_t index = indexes[ i ];
+        uint8_t index = app->indexes[ i ];
+        uint8_t lowerIndex = app->indexes[i - 1];
         uint8_t flag = 0;
         Company* companies = app->companies;
-        char letter1 = companies[ index - 1 ].name[ k ];
+        char letter1 = companies[ lowerIndex ].name[ k ];
         char letter2 = companies[ index  ].name[ k ];
         while(letter1 == letter2)
         {
             assert(letter1 != '\0' || letter1 != '\0');
-            letter1 = companies[ index - 1 ].name[ k ];
-            letter2 = companies[ index  ].name[ k ];
             k++;
+            letter1 = companies[ lowerIndex ].name[ k ];
+            letter2 = companies[ index  ].name[ k ];
         }
         k = 0;
         if(letter1 != '\0' && letter2 == '\0')
         {
-            swap(&indexes[i - 1], &indexes[ i ] );
+            swap(&app->indexes[i - 1], &app->indexes[ i ] );
             flag = 1;
         }
         
         if(letter1 < letter2) 
         {
-            if(!flag) { swap( &indexes[ i - 1 ], &indexes[ i ] ); }
+            if(!flag) { swap( &app->indexes[ i - 1 ], &app->indexes[ i ] ); }
 
             for(int j = i - 1; j > 0; j-- )
             {
                 index = indexes[ j ];
+                lowerIndex = indexes[j - 1];
                 letter1 = companies[ index ].name[ k ];
-                letter2 = companies[ index - 1 ].name[ k ];
+                letter2 = companies[ lowerIndex ].name[ k ];
                 if(letter1 < letter2)
                 {
-                    swap(&indexes[ j ], &indexes[ j - 1 ]);
+                    swap(&app->indexes[ j ], &app->indexes[ j - 1 ]);
                 }
             }
             flag = 0;
