@@ -14,13 +14,15 @@
 void app_main(void)
 {
    Application app;
-   add_company(&app, "kalle");
+   application_init(&app);
+   add_company(&app, "akalle");
    add_company(&app, "pelle");
    add_company(&app, "fisk");
    add_company(&app, "abraham");
 
    sort(&app);
    list_companies(&app);
+   list_indexes(&app);
 }
 
 

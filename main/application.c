@@ -49,10 +49,20 @@ void sort(Application* app)
     sort_companies(app);
 }
 
-void list_companies(Application* app)
+void list_companies(const Application* app)
 {
     for(int i = 0; i < app->size; i++)
     {
-        printf("%s\n", app->companies[ app->indexes[ i ] ].name);
+        printf("%s  -> ", app->companies[ app->indexes[ i ] ].name);
+        printf("%s  -> \n", app->companies[ i ].name);
     }
 }
+
+void list_indexes(const Application* app)
+{
+    for(int i = 0; i < app->size; i++)
+    {
+        printf("index: %d  value: %u\n", i, app->indexes[i]);
+    }
+}
+
