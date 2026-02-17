@@ -31,7 +31,7 @@ int remove_company(Application* app, const char* name)
     {
         if(app->companies[ app->indexes[ i ] ].name == name)
         {
-            swap(&app->indexes[ i ], &app->indexes[ app->size ]);
+            swap(&app->indexes[ i ], &app->indexes[ app->size - 1 ]);
             app->size--;
             return 1;
         }
@@ -39,9 +39,17 @@ int remove_company(Application* app, const char* name)
     return 0;
 }
 
-void add_payment(const Application* app, const char* name, uint32_t payment)
+int add_payment(Application* app, const char* name, uint32_t payment)
 {
-
+    for(int i = 0; i < app->size; i++)
+    {
+        if(app->companies[ app->indexes[i] ].name == name)
+        {
+            app->companies[ app->indexes[i] ].paid_amount += payment;
+            return 1;
+        }
+    }
+    return 0;
 }
 
 void sort(Application* app)

@@ -10,12 +10,13 @@ typedef struct Application
 
     uint8_t capacity;
     uint8_t size;
+    uint16_t accumulated_money;
 }Application;
 
 void application_init(Application*);
 int add_company(Application*, const char*);
 int remove_company(Application*, const char*);
-void add_payment(const Application*, const char* name, uint32_t);
+int add_payment(Application*, const char* name, uint32_t);
 void sort(Application*);
 void list_companies(const Application*);
 void list_indexes(const Application*);

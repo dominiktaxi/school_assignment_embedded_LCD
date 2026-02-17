@@ -1,13 +1,14 @@
 #include <assert.h>
 #include "insertion-sort.h"
+#include "utils.h"
 
 
-static void swap(uint8_t* a, uint8_t* b)
-{
-    uint8_t temp = *a;
-    *a = *b;
-    *b = temp;
-}
+// static void swap(uint8_t* a, uint8_t* b)
+// {
+//     uint8_t temp = *a;
+//     *a = *b;
+//     *b = temp;
+// }
 
 
 void sort_companies(Application* app)
@@ -30,7 +31,7 @@ void sort_companies(Application* app)
             letter2 = companies[ index  ].name[ k ];
         }
         k = 0;
-        if(letter1 != '\0' && letter2 == '\0')
+        if(letter1 == '\0' && letter2 != '\0')
         {
             swap(&app->indexes[i - 1], &app->indexes[ i ] );
             flag = 1;
@@ -44,8 +45,8 @@ void sort_companies(Application* app)
             {
                 index = indexes[ j ];
                 lowerIndex = indexes[j - 1];
-                letter1 = companies[ index ].name[ k ];
-                letter2 = companies[ lowerIndex ].name[ k ];
+                letter1 = companies[ lowerIndex ].name[ k ];
+                letter2 = companies[ index ].name[ k ];
                 if(letter1 < letter2)
                 {
                     swap(&app->indexes[ j ], &app->indexes[ j - 1 ]);
