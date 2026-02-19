@@ -16,38 +16,6 @@ void app_main(void)
    Application app;
    application_init(&app);
 
-   add_company(&app, "aabe");
-   add_company(&app, "aace");
-   add_company(&app, "aaaade");
-   add_company(&app, "aaaace");
-   add_company(&app, "mustafa");
-   add_company(&app, "bengt");
-   add_company(&app, "skip");
-   add_company(&app, "kicek");
-   add_company(&app, "langben");
-   add_company(&app, "a");
-   add_company(&app, "integer");
-   add_company(&app, "best");
-
-   //remove_company(&app, "aace");
-   
-   sort(&app);
-   list_companies(&app);
-   sort(&app);
-   list_companies(&app);
-   sort(&app);
-   list_companies(&app);
-   sort(&app);
-   list_companies(&app);
-   sort(&app);
-   list_companies(&app);
-   
-   remove_company(&app, "aabe");
-   add_company(&app, "aprikos");
-   list_companies(&app);
-   sort(&app);
-   list_companies(&app);
-
    
    
    //list_indexes(&app);

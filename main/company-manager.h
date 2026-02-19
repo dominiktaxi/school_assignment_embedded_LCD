@@ -10,6 +10,6 @@ typedef struct CompanyManager
     uint8_t size;
 }CompanyManager;
 
-STATUS_T add_company(CompanyManager*, const char*, const char*, const char*, TYPE, TYPE, uint16_t);
+STATUS_T insert_company(CompanyManager*, const char*, const char*, const char*, TYPE, TYPE, uint16_t);
 
 #endif

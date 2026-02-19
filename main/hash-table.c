@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "status.h"
 #include "hash-table.h"
 
 static int str_to_number(const char* str)
@@ -13,15 +13,16 @@ static int str_to_number(const char* str)
     return ret;
 }
 
-void hash_table_init(HashTable* table)
+STATUS_T hash_table_init(HashTable* table)
 {
+    if(table == NULL) { return POINTER_IS_NULL; }
     for(int i = 0; i < 100; i++)
     {
         table->buckets[i].empty = true;
     }
 }
 
-bool insert(HashTable* table, Company company)
+STATUS_T insert(HashTable* table, Company company)
 {
     bool success = false;
     uint16_t key = str_to_number(company.company_name);
@@ -31,14 +32,14 @@ bool insert(HashTable* table, Company company)
     {
         if(table->buckets[index].key == key && !( table->buckets[index].empty ) )
         {
-            return false;
+            return DUPLICATE;
         }
         if(table->buckets[ index ].empty)
         {
             table->buckets[ index ].company = company;
             table->buckets[ index ].key = key;
             table->buckets[ index ].empty = false;
-            return true;
+            return SUCCESS;
         }
         else
         {
@@ -47,7 +48,7 @@ bool insert(HashTable* table, Company company)
         }
         counter++;
     }
-    return false;
+    return OUT_OF_SPACE;
 }
 
 bool delete(HashTable* table, const char* name)
@@ -74,10 +75,10 @@ bool delete(HashTable* table, const char* name)
         index++;
         index %= 100;
         counter++;
-        if(!table->buckets[index].empty)
+        if( !table->buckets[ index ].empty )
         {
-            insert(table, table->buckets[index].key, table->buckets[index].company);
-            table->buckets[index].empty = true;
+            insert( table, table->buckets[ index ].company );
+            table->buckets[ index ].empty = true;
         }
         else
         {
@@ -87,16 +88,16 @@ bool delete(HashTable* table, const char* name)
     return success;
 }
 
-void find_and_print(HashTable* table, int key)
+void find_and_print( HashTable* table, const char* name )
 {
     printf("find and print:\n");
-    int index = key % 100;
+    int index = str_to_number(name) % 100;
     int counter = 0;
     while(counter < 100)
     {
         index %= 100;
-        int data = table->buckets[index].data;
-        if(table->buckets[index].key == key && !(table->buckets[index].empty) )
+        char name[20] = strcpy(name, table->buckets[index].company.company_name);
+        if(table->buckets[index].company.company_name == name && !(table->buckets[index].empty) )
         {
             key = table->buckets[index].key;
             printf("Index: %d, Key: %d, Data: %d\n", index, key, data );
@@ -112,11 +113,10 @@ void print_all(HashTable* table)
     printf("print all:\n");
     for(int i = 0; i < 100; i++)
     {
-        int key = table->buckets[i].key;
-        int data = table->buckets[i].data;
+        uint16_t key = str_to_number(table->buckets[i].company.company_name);
         if( !(table->buckets[i].empty) )
         {
-            printf("Index: %d, Key: %d, Data: %d\n", i, key, data);
+            printf("Index: %d, Key: %d, Name: %s\n", i, key, table->buckets[i].company.company_name);
         }
     }
 }
