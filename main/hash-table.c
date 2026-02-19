@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "status.h"
 #include "hash-table.h"
 
@@ -20,6 +21,7 @@ STATUS_T hash_table_init(HashTable* table)
     {
         table->buckets[i].empty = true;
     }
+    return NONE;
 }
 
 STATUS_T insert(HashTable* table, Company company)
@@ -96,11 +98,12 @@ void find_and_print( HashTable* table, const char* name )
     while(counter < 100)
     {
         index %= 100;
-        char name[20] = strcpy(name, table->buckets[index].company.company_name);
+        char name2[20] = {0};
+        strcpy(name2, table->buckets[index].company.company_name);
         if(table->buckets[index].company.company_name == name && !(table->buckets[index].empty) )
         {
-            key = table->buckets[index].key;
-            printf("Index: %d, Key: %d, Data: %d\n", index, key, data );
+            uint32_t key = str_to_number(table->buckets[index].company.company_name);
+            printf("Index: %d, Key: %lu, Name: %s\n", index, key, name );
             return;
         }
         index++;

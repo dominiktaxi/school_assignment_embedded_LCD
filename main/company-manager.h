@@ -9,7 +9,7 @@ typedef struct CompanyManager
     HashTable table;
     uint8_t size;
 }CompanyManager;
-
+void company_manager_init(CompanyManager*);
 STATUS_T insert_company(CompanyManager*, const char*, const char*, const char*, TYPE, TYPE, uint16_t);
 
 #endif
