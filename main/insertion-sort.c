@@ -21,14 +21,15 @@ void sort_companies(Application* app)
         uint8_t lowerIndex = app->indexes[i - 1];
         uint8_t flag = 0;
         Company* companies = app->companies;
-        char letter1 = companies[ lowerIndex ].name[ k ];
-        char letter2 = companies[ index  ].name[ k ];
+        char letter1 = companies[ index  ].name[ k ];
+        char letter2 = companies[ lowerIndex ].name[ k ];
+        
         while(letter1 == letter2)
         {
             assert(letter1 != '\0' || letter1 != '\0');
             k++;
-            letter1 = companies[ lowerIndex ].name[ k ];
-            letter2 = companies[ index  ].name[ k ];
+            letter1 = companies[ index  ].name[ k ];
+            letter2 = companies[ lowerIndex ].name[ k ];
         }
         k = 0;
         if(letter1 == '\0' && letter2 != '\0')
@@ -45,8 +46,8 @@ void sort_companies(Application* app)
             {
                 index = indexes[ j ];
                 lowerIndex = indexes[j - 1];
-                letter1 = companies[ lowerIndex ].name[ k ];
-                letter2 = companies[ index ].name[ k ];
+                letter1 = companies[ index ].name[ k ];
+                letter2 = companies[ lowerIndex ].name[ k ];
                 if(letter1 < letter2)
                 {
                     swap(&app->indexes[ j ], &app->indexes[ j - 1 ]);

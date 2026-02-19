@@ -29,12 +29,27 @@ void app_main(void)
    add_company(&app, "integer");
    add_company(&app, "best");
 
-   sort(&app);
    //remove_company(&app, "aace");
    
+   sort(&app);
    list_companies(&app);
    sort(&app);
    list_companies(&app);
+   sort(&app);
+   list_companies(&app);
+   sort(&app);
+   list_companies(&app);
+   sort(&app);
+   list_companies(&app);
+   
+   remove_company(&app, "aabe");
+   add_company(&app, "aprikos");
+   list_companies(&app);
+   sort(&app);
+   list_companies(&app);
+
+   
+   
    //list_indexes(&app);
 }
 

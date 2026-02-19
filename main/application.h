@@ -1,16 +1,11 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
-#include "companies.h"
+#include "company-manager.h"
 
-#define MAX_COMPANIES 20
+
 typedef struct Application
 {
-    Company companies[MAX_COMPANIES];
-    uint8_t indexes[MAX_COMPANIES];
-
-    uint8_t capacity;
-    uint8_t size;
-    uint16_t accumulated_money;
+    CompanyManager manager;
 }Application;
 
 void application_init(Application*);
