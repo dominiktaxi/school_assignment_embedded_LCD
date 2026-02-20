@@ -14,7 +14,7 @@ static int str_to_number(const char* str)
     return ret;
 }
 
-STATUS_T hash_table_init(HashTable* table)
+STATUS_T hashTable_init(HashTable* table)
 {
     if(table == NULL) { return POINTER_IS_NULL; }
     for(int i = 0; i < 100; i++)
@@ -24,7 +24,7 @@ STATUS_T hash_table_init(HashTable* table)
     return NONE;
 }
 
-STATUS_T insert(HashTable* table, Company company)
+STATUS_T hashTable_insert(HashTable* table, Company company)
 {
     bool success = false;
     uint16_t key = str_to_number(company.company_name);
@@ -53,7 +53,7 @@ STATUS_T insert(HashTable* table, Company company)
     return OUT_OF_SPACE;
 }
 
-bool delete(HashTable* table, const char* name)
+bool hashTable_delete(HashTable* table, const char* name)
 {
     bool success = false;
     uint32_t key = str_to_number(name);
@@ -79,7 +79,7 @@ bool delete(HashTable* table, const char* name)
         counter++;
         if( !table->buckets[ index ].empty )
         {
-            insert( table, table->buckets[ index ].company );
+            hashTable_insert( table, table->buckets[ index ].company );
             table->buckets[ index ].empty = true;
         }
         else
@@ -90,7 +90,7 @@ bool delete(HashTable* table, const char* name)
     return success;
 }
 
-void find_and_print( HashTable* table, const char* name )
+void hashTable_findAndPrint( HashTable* table, const char* name )
 {
     printf("find and print:\n");
     int index = str_to_number(name) % 100;
@@ -111,7 +111,7 @@ void find_and_print( HashTable* table, const char* name )
     }
 }
 
-void print_all(HashTable* table)
+void hashTable_printAll(HashTable* table)
 {
     printf("print all:\n");
     for(int i = 0; i < 100; i++)

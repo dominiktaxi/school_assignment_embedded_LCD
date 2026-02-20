@@ -15,9 +15,8 @@ void app_main(void)
 {
    Application app;
    application_init(&app);
-
-   
-   
+   application_addCompany(&app, "Dahl Sverige AB");
+   application_printCompanies(&app);
    //list_indexes(&app);
 }
 

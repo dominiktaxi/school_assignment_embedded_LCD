@@ -17,9 +17,10 @@ typedef struct HashTable
     Bucket buckets[100];
 }HashTable;
 
-STATUS_T hash_table_init(HashTable*);
-STATUS_T insert(HashTable*, Company);
-void find_and_print(HashTable*, const char*);
-void print_all(HashTable*);
+STATUS_T hashTable_init(HashTable*);
+STATUS_T hashTable_insert(HashTable*, Company);
+bool hashTable_delete(HashTable*, const char*);
+void hashTable_findAndPrint(HashTable*, const char*);
+void hashTable_printAll(HashTable*);
 
 #endif

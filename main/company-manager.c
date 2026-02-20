@@ -1,7 +1,7 @@
 #include "company-manager.h"
 #include <string.h>
 
-void company_manager_init(CompanyManager* manager)
+void companyManager_init(CompanyManager* manager)
 {
     uint32_t size = sizeof(manager->table.buckets) / sizeof(manager->table.buckets[0]);
     for(int i = 0; i < size; i++)
@@ -10,7 +10,7 @@ void company_manager_init(CompanyManager* manager)
     }
 }
 
-STATUS_T insert_company(CompanyManager* manager, const char* name, const char* ad_text1, const char* ad_text2, TYPE type1, TYPE type2, uint16_t payment)
+STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name, const char* ad_text1, const char* ad_text2, TYPE type1, TYPE type2, uint16_t payment)
 {
     Company company;
     company_init(&company);
@@ -45,6 +45,10 @@ STATUS_T insert_company(CompanyManager* manager, const char* name, const char* a
         strcpy(company.ad_data[company.adData_amount].ad_text, ad_text2);
         company.ad_data[ company.adData_amount ].type = type2;
     }
-    
-        return insert(&manager->table, company);
+        return hashTable_insert(&manager->table, company);
+}
+
+void companyManager_printCompanies(CompanyManager* manager)
+{
+    hashTable_printAll(&manager->table);
 }

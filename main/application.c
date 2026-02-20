@@ -5,8 +5,17 @@ void application_init(Application* app)
     return;
 }
 
-int add_company(Application* app, const char*)
+STATUS_T application_addCompany(Application* app, const char* name)
 {
-    insert_company(&app->manager, "Dahl Sverige AB", "Buy pipes", NULL, BLINKING, NONE, 16000);
-    return 1;
+    return companyManager_insertCompany(&app->manager, name, "Buy pipes", NULL, BLINKING, NONE, 16000);
+}
+
+int application_removeCompany(Application* app, const char* name)
+{
+    return 0;
+}
+
+void application_printCompanies(const Application* app)
+{
+    companyManager_printCompanies(&app->manager);
 }
