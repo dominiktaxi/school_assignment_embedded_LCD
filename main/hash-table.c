@@ -14,17 +14,17 @@ static int str_to_number(const char* str)
     return ret;
 }
 
-STATUS_T hashTable_init(HashTable* table)
+STATUS_T hashTable_init(HashTable* hashTable)
 {
-    if(table == NULL) { return POINTER_IS_NULL; }
+    if(hashTable == NULL) { return POINTER_IS_NULL; }
     for(int i = 0; i < 100; i++)
     {
-        table->buckets[i].empty = true;
+        hashTable->buckets[i].empty = true;
     }
     return NONE;
 }
 
-STATUS_T hashTable_insert(HashTable* table, Company company)
+STATUS_T hashTable_insert(HashTable* hashTable, Company company)
 {
     bool success = false;
     uint16_t key = str_to_number(company.company_name);
@@ -32,15 +32,15 @@ STATUS_T hashTable_insert(HashTable* table, Company company)
     int counter = 0;
     while(counter < 100)
     {
-        if(table->buckets[index].key == key && !( table->buckets[index].empty ) )
+        if(hashTable->buckets[index].key == key && !( hashTable->buckets[index].empty ) )
         {
             return DUPLICATE;
         }
-        if(table->buckets[ index ].empty)
+        if(hashTable->buckets[ index ].empty)
         {
-            table->buckets[ index ].company = company;
-            table->buckets[ index ].key = key;
-            table->buckets[ index ].empty = false;
+            hashTable->buckets[ index ].company = company;
+            hashTable->buckets[ index ].key = key;
+            hashTable->buckets[ index ].empty = false;
             return SUCCESS;
         }
         else
@@ -53,7 +53,7 @@ STATUS_T hashTable_insert(HashTable* table, Company company)
     return OUT_OF_SPACE;
 }
 
-bool hashTable_delete(HashTable* table, const char* name)
+bool hashTable_delete(HashTable* hashTable, const char* name)
 {
     bool success = false;
     uint32_t key = str_to_number(name);
@@ -61,9 +61,9 @@ bool hashTable_delete(HashTable* table, const char* name)
     int counter = 0;
     while(counter < 100)
     {
-        if(table->buckets[index].key == key)
+        if(hashTable->buckets[index].key == key)
         {
-            table->buckets[index].empty = true;
+            hashTable->buckets[index].empty = true;
             success = true;
             counter = 0;
         }
@@ -77,10 +77,10 @@ bool hashTable_delete(HashTable* table, const char* name)
         index++;
         index %= 100;
         counter++;
-        if( !table->buckets[ index ].empty )
+        if( !hashTable->buckets[ index ].empty )
         {
-            hashTable_insert( table, table->buckets[ index ].company );
-            table->buckets[ index ].empty = true;
+            hashTable_insert( hashTable, hashTable->buckets[ index ].company );
+            hashTable->buckets[ index ].empty = true;
         }
         else
         {
@@ -90,7 +90,7 @@ bool hashTable_delete(HashTable* table, const char* name)
     return success;
 }
 
-void hashTable_findAndPrint( HashTable* table, const char* name )
+void hashTable_findAndPrint( HashTable* hashTable, const char* name )
 {
     printf("find and print:\n");
     int index = str_to_number(name) % 100;
@@ -99,10 +99,10 @@ void hashTable_findAndPrint( HashTable* table, const char* name )
     {
         index %= 100;
         char name2[20] = {0};
-        strcpy(name2, table->buckets[index].company.company_name);
-        if(table->buckets[index].company.company_name == name && !(table->buckets[index].empty) )
+        strcpy(name2, hashTable->buckets[index].company.company_name);
+        if(hashTable->buckets[index].company.company_name == name && !(hashTable->buckets[index].empty) )
         {
-            uint32_t key = str_to_number(table->buckets[index].company.company_name);
+            uint32_t key = str_to_number(hashTable->buckets[index].company.company_name);
             printf("Index: %d, Key: %lu, Name: %s\n", index, key, name );
             return;
         }
@@ -111,15 +111,15 @@ void hashTable_findAndPrint( HashTable* table, const char* name )
     }
 }
 
-void hashTable_printAll(HashTable* table)
+void hashTable_printAll(HashTable* hashTable)
 {
     printf("print all:\n");
     for(int i = 0; i < 100; i++)
     {
-        uint16_t key = str_to_number(table->buckets[i].company.company_name);
-        if( !(table->buckets[i].empty) )
+        uint16_t key = str_to_number(hashTable->buckets[i].company.company_name);
+        if( !(hashTable->buckets[i].empty) )
         {
-            printf("Index: %d, Key: %d, Name: %s\n", i, key, table->buckets[i].company.company_name);
+            printf("Index: %d, Key: %d, Name: %s\n", i, key, hashTable->buckets[i].company.company_name);
         }
     }
 }

@@ -6,7 +6,7 @@
 
 typedef struct CompanyManager
 {
-    HashTable table;
+    HashTable hashTable;
     uint8_t size;
 }CompanyManager;
 void companyManager_init(CompanyManager*);

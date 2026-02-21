@@ -1,6 +1,6 @@
 #ifndef HASH_TABLE_H
-
 #define HASH_TABLE_H
+
 #include <stdbool.h>
 #include "companies.h"
 #include "status.h"

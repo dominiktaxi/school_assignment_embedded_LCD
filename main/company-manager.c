@@ -3,16 +3,16 @@
 
 void companyManager_init(CompanyManager* manager)
 {
-    uint32_t size = sizeof(manager->table.buckets) / sizeof(manager->table.buckets[0]);
+    uint32_t size = sizeof(manager->hashTable.buckets) / sizeof(manager->hashTable.buckets[0]);
     for(int i = 0; i < size; i++)
     {
-        manager->table.buckets[i].empty = true;
+        manager->hashTable.buckets[i].empty = true;
     }
 }
 
 STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name, const char* ad_text1, const char* ad_text2, TYPE type1, TYPE type2, uint16_t payment)
 {
-    Company company;
+    Company company = {0};
     company_init(&company);
     uint8_t max_size = sizeof(company.company_name) / sizeof(company.company_name[0]);
 
@@ -45,10 +45,10 @@ STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name,
         strcpy(company.ad_data[company.adData_amount].ad_text, ad_text2);
         company.ad_data[ company.adData_amount ].type = type2;
     }
-        return hashTable_insert(&manager->table, company);
+        return hashTable_insert(&manager->hashTable, company);
 }
 
 void companyManager_printCompanies(CompanyManager* manager)
 {
-    hashTable_printAll(&manager->table);
+    hashTable_printAll(&manager->hashTable);
 }

@@ -2,6 +2,7 @@
 #include "utils.h"
 void application_init(Application* app)
 {
+    companyManager_init(&app->manager);
     return;
 }
 
