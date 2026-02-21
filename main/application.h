@@ -9,7 +9,7 @@ typedef struct Application
 }Application;
 
 void application_init(Application*);
-STATUS_T application_addCompany(Application*, const char*);
+STATUS_T application_addCompany(Application*, const char*, const char*, const char*, AD_TYPE, AD_TYPE, uint16_t);
 int application_removeCompany(Application*, const char*);
 int application_addPayment(Application*, const char* name, uint32_t);
 void application_sort(Application*);
