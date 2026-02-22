@@ -1,53 +1,50 @@
 #include <stdio.h>
 #include "error-handler.h"
 
-void errorHandler_printErrors(STATUS_T* status, uint8_t size)
+void errorHandler_printErrors(STATUS_T status, const char* type)
 {
-    for(uint8_t i = 0; i < size; i++)
+    switch(status)
     {
-        switch(status[i])
+        case FAILED:
         {
-            case FAILED:
-            {
-                printf("FAILED\n");
-                break;
-            }
-            case SUCCESS:
-            {
-                printf("SUCCESS\n");
-                break;
-            }
-            case STRING_TOO_LONG:
-            {
-                printf("STRING TOO LONG\n");
-                break;
-            }
-            case POINTER_IS_NULL:
-            {
-                printf("POINTER IS NULL\n");
-                break;
-            }
-            case OUT_OF_SPACE:
-            {
-                printf("OUT OF SPACE\n");
-                break;
-            }
-            case DUPLICATE:
-            {
-                printf("DUPLICATE\n");
-                break;
-            }
-            case AD_CAPACITY_REACHED:
-            {
-                printf("ADD CAPACITY REACHED\n");
-                break;
-            }
-            case COMPANY_NOT_FOUND:
-            {
-                printf("COMPANY NOT FOUND\n");
-                break;
-            }
-        }   
+            printf("%s FAILED\n", type);
+            break;
+        }
+        case SUCCESS:
+        {
+            printf("%s SUCCESS\n", type);
+            break;
+        }
+        case STRING_TOO_LONG:
+        {
+            printf("%s STRING TOO LONG\n", type);
+            break;
+        }
+        case POINTER_IS_NULL:
+        {
+            printf("%s POINTER IS NULL\n", type);
+            break;
+        }
+        case OUT_OF_SPACE:
+        {
+            printf("%s OUT OF SPACE\n", type);
+            break;
+        }
+        case DUPLICATE:
+        {
+            printf("%s DUPLICATE\n", type);
+            break;
+        }
+        case AD_CAPACITY_REACHED:
+        {
+            printf("%s AD CAPACITY REACHED\n", type);
+            break;
+        }
+        case COMPANY_NOT_FOUND:
+        {
+            printf("%s, COMPANY NOT FOUND\n", type);
+            break;
+        }
     }
 }
 

@@ -3,11 +3,7 @@
 
 void companyManager_init(CompanyManager* manager)
 {
-    uint32_t size = sizeof(manager->hashTable.buckets) / sizeof(manager->hashTable.buckets[0]);
-    for(int i = 0; i < size; i++)
-    {
-        manager->hashTable.buckets[i].empty = true;
-    }
+    hashTable_init(&manager->hashTable);
 }
 
 STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name, const char* ad_text1, const char* ad_text2, AD_TYPE type1, AD_TYPE type2, uint16_t payment)
