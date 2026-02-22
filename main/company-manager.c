@@ -3,14 +3,13 @@
 
 void companyManager_init(CompanyManager* manager)
 {
-    hashTable_init(&manager->hashTable);
+    companyStorage_init(&manager->companyData);
 }
 
 STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name, const char* ad_text1, const char* ad_text2, AD_TYPE type1, AD_TYPE type2, uint16_t payment)
 {
     Company company = {0};
     company_init(&company);
-    uint8_t max_size = sizeof(company.company_name) / sizeof(company.company_name[0]);
 
     if(name == NULL) { return POINTER_IS_NULL; }
 
@@ -46,15 +45,11 @@ STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name,
         company.ad_data[ company.ad_size ].type = type2;
         company.ad_size++;
     }
-        return hashTable_insert(&manager->hashTable, company);
+        return companyStorage_add(&manager->companyData, company);
 }
 
-STATUS_T companyManager_addAd(CompanyManager* manager, const char* name, const char* ad, AD_TYPE type)
-{
-    return hashTable_addAd(&manager->hashTable, name, ad, type);
-}
 
 void companyManager_printCompanies(CompanyManager* manager)
 {
-    hashTable_printAll(&manager->hashTable);
+    companyStorage_printAll(&manager->companyData);
 }
