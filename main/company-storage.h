@@ -1,11 +1,10 @@
 #ifndef HASH_TABLE_H
 #define HASH_TABLE_H
-
+#include <stdint.h>
+#include <inttypes.h>
 #include "companies.h"
 #include "status.h"
 #include "macros.h"
-#include "driver/gpio.h"
-#include "driver/i2c.h"
 
 
 typedef struct CompanyData

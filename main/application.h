@@ -11,5 +11,6 @@ typedef struct Application
 void application_init(Application*);
 STATUS_T application_addCompany(Application*, const char*, const char*, const char*, AD_TYPE, AD_TYPE, uint16_t);
 void application_printCompanies(const Application*);
+void application_print(Application*);
 
 #endif

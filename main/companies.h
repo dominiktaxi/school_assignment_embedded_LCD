@@ -1,8 +1,7 @@
 #ifndef COMPANIES_H
 #define COMPANIES_H
 #include "macros.h"
-#include "driver/gpio.h"
-#include "driver/i2c.h"
+#include <stdint.h>
 typedef enum AD_TYPE
 {
     SCROLLING,
@@ -13,13 +12,13 @@ typedef enum AD_TYPE
 
 typedef struct Ad_data
 {
-    char ad_text[AD_STR_SIZE_MAX];
+    const char* ad_text;
     AD_TYPE type;
 }Ad_data;
 
 typedef struct Company
 {
-    char company_name[COMPANY_STR_NAME_SIZE_MAX];
+    const char* company_name;
     Ad_data ad_data[2];
     uint32_t paid_amount;
     uint8_t ad_size;

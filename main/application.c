@@ -14,3 +14,8 @@ void application_printCompanies(const Application* app)
 {
     companyManager_printCompanies(&app->manager);
 }
+
+void application_print(Application* app)
+{
+    companyManager_print(&app->manager);
+}
