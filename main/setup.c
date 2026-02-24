@@ -6,10 +6,10 @@ void setup_init(Application* app)
     static const CompanySpecs specs[] =
     {
        {"Dahl Sverige AB", NULL, "dont buy pipes", STATIC, SCROLLING, 16000},
-       {"Langbens Verkstad", "We are selling drugs", NULL, NONE, STATIC, 12000},
-       {"Chicken Banana", "We are not selling drugs", "MIRAGE", NONE, STATIC, 12000},
-       {"Langbens Verkstad", "We are selling drugs", "INSTAGRAM", NONE, STATIC, 12000},
-       {"Langbens Verkstad", "We are not selling drugs", "FIX", NONE, STATIC, 12000},
+       {"Langbens Verkstad", "We are selling cars", NULL, NONE, STATIC, 12000},
+       {"Chicken Banana", "We are not selling cars", "MIRAGE", NONE, STATIC, 12000},
+       {"Langbens Verkstad", "We are selling cars", "INSTAGRAM", NONE, STATIC, 12000},
+       {"Langbens Verkstad", "We are not selling cars", "FIX", NONE, STATIC, 12000},
     };
     
     STATUS_T status;
