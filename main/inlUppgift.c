@@ -1,7 +1,9 @@
 #include "lcd-screen.h"
 #include <stdio.h>
+#include <inttypes.h>
 
-
+#include "driver/gpio.h"
+#include "driver/i2c.h"
 
 #include "application.h"
 #include "setup.h"
@@ -20,6 +22,9 @@ void app_main(void)
    printf("Uint16_T: %u\n", sizeof(uint16_t));
    application_printCompanies(&app);
    application_print(&app);
+   
+   
+
 }
 
 

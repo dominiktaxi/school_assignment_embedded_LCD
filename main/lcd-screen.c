@@ -11,9 +11,6 @@
 
 #define RW 0 // read/write 0 = write, 1 = read
 
-
-
-
 static int i2c_init_core(LcdScreen* screen, gpio_num_t SDA, gpio_num_t SCL, uint8_t adress)
 {
     screen->SDA = SDA;
@@ -43,7 +40,6 @@ static int i2c_init_core(LcdScreen* screen, gpio_num_t SDA, gpio_num_t SCL, uint
 static int pulse_byte(const LcdScreen* screen, uint8_t byte, uint8_t cmd)
 {
     cmd = CLEAR_HIGH_NIBBLE(cmd);
-
     uint8_t data = CLEAR_LOW_NIBBLE(byte);
     data |= cmd;
     if(!send_byte_get_ack(screen, data)) {printf("Sending byte failed, inside function pulse_byte\n"); return 0;}

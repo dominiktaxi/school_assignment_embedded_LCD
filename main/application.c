@@ -17,5 +17,5 @@ void application_printCompanies(const Application* app)
 
 void application_print(Application* app)
 {
-    companyManager_print(&app->manager);
+    
 }

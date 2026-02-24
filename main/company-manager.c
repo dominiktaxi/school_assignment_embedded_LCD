@@ -1,6 +1,30 @@
 #include "company-manager.h"
 #include <string.h>
 
+static void printToLCD(Company* company, CompanyManager* manager)
+{
+    adDisplayer_print( &manager->adDisplayer, company );
+}
+
+static Company* weightedByPaymentSelector(const CompanyData* data, uint32_t(*callback)(void*))
+{
+    uint32_t random = callback(data);
+    uint32_t accumulated = data->accumulated_pay;
+    uint32_t weight = 0;
+
+    for(int i = 0; i < data->size; i++)
+    {
+        weight = data->companies[i].paid_amount;
+        if(weight > random)
+        {
+            return &data->companies[i];
+        }
+        random -= weight;
+    }
+    return NULL;
+}
+
+
 void companyManager_init(CompanyManager* manager)
 {
     companyStorage_init(&manager->companyData);
@@ -50,10 +74,12 @@ STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name,
     return companyStorage_add(&manager->companyData, company);
 }
 
-void companyManager_print(CompanyManager* manager)
+void companyManager_weightedRandomized(CompanyManager* manager, RandomNumberGenerator generator, void* data)
 {
-    adDisplayer_print(&manager->adDisplayer, &manager->companyData.companies[1]);
+    Company* company = weightedByPaymentSelector(&manager->companyData, generator);
+    printToLCD(company, manager);
 }
+
 
 void companyManager_printCompanies(CompanyManager* manager)
 {
