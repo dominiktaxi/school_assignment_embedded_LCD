@@ -31,7 +31,9 @@ void companyManager_init(CompanyManager* manager)
     adDisplayer_init(&manager->adDisplayer);
 }
 
-STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name, const char* ad_text1, const char* ad_text2, AD_TYPE type1, AD_TYPE type2, uint16_t payment)
+STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name, const char* ad_text1, const char* ad_text2, 
+                                        const char* ad_text3, AD_TYPE type1, AD_TYPE type2, AD_TYPE type3, DISPLAY_PATTERN pattern,
+                                         uint16_t payment)
 {
     Company company = {0};
     company_init(&company);
@@ -51,6 +53,7 @@ STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name,
 
     company.company_name = name;
     company.paid_amount = payment;
+    company.display_pattern = pattern;
     if(ad_text1 != NULL) 
     {
         if(company.ad_size >= company.ad_size_max)
@@ -71,6 +74,16 @@ STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name,
         company.ad_data[ company.ad_size ].type = type2;
         company.ad_size++;
     }
+    if(ad_text3 != NULL) 
+    {
+        if(company.ad_size >= company.ad_size_max)
+        {
+            return OUT_OF_SPACE;
+        }
+        company.ad_data[ company.ad_size ].ad_text = ad_text3;  //pointer handling, must come from a static
+        company.ad_data[ company.ad_size ].type = type3;
+        company.ad_size++;
+    }
     return companyStorage_add(&manager->companyData, company);
 }
 
@@ -78,6 +91,11 @@ void companyManager_weightedRandomized(CompanyManager* manager, RandomNumberGene
 {
     Company* company = weightedByPaymentSelector(&manager->companyData, generator);
     printToLCD(company, manager);
+}
+
+int64_t getTimeUs(int64_t(*callback)(void) )
+{
+    return callback();
 }
 
 

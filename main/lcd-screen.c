@@ -90,12 +90,12 @@ static uint8_t send_byte_get_ack(const LcdScreen* screen, unsigned char byte)
         esp_rom_delay_us(10);
         gpio_set_level(screen->SCL, 0);
         esp_rom_delay_us(10);
-        printf("%d ", (byte >> ( 7 - i )) & 1);
+        //printf("%d ", (byte >> ( 7 - i )) & 1);
         esp_rom_delay_us(10);
     }
    
 
-    printf("\n");
+    //printf("\n");
     gpio_set_level(screen->SDA, 1);
     
     gpio_set_level(screen->SCL, 1);
@@ -193,7 +193,9 @@ int lcd_clear(const LcdScreen* screen)
 
 
 int lcd_print(const LcdScreen* screen, const char* text, uint8_t set_column, uint8_t set_cursor)
-{
+{   
+    pulse_byte(screen, 0b10, 0b1100); // set cursor home
+    esp_rom_delay_us(1600);
     uint8_t byte = 0;
     uint8_t cmd = 0;
     uint8_t flag = 0;
@@ -207,14 +209,14 @@ int lcd_print(const LcdScreen* screen, const char* text, uint8_t set_column, uin
         if(set_cursor == 0 && set_column == 0)
         {
             byte = text[i];
-            cmd = 0b1101;
+            cmd = 0b1101; //send character
         }
         else
         {
             if(set_column > 1) set_column = 1;
             if(set_cursor > 15) set_cursor = 15;
             byte = (set_cursor + set_column * 0x40) | (1 << 7);
-            cmd = 0b1100;
+            cmd = 0b1100;  //send command
             flag = 1;
             set_cursor = 0;
             set_column = 0;

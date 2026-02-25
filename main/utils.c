@@ -1,5 +1,6 @@
 #include "utils.h"
 #include "esp_random.h"
+#include "esp_timer.h"
 #include "company-manager.h"
 
 void utils_toLower(const char** text)
@@ -24,4 +25,9 @@ uint32_t espRandom(void* data)
 {
     CompanyData* companyData = data;
     return esp_random() % companyData->accumulated_pay;
+}
+
+int64_t getEspTimeUs()
+{
+    return esp_timer_get_time();
 }

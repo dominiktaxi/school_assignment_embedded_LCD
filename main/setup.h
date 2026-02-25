@@ -9,9 +9,12 @@ typedef struct CompanySpecs
 {
     const char* companyName;
     const char* ad1;
-    const char* ad2;
     AD_TYPE type1;
+    const char* ad2;
     AD_TYPE type2;
+    const char* ad3;
+    AD_TYPE type3;
+    DISPLAY_PATTERN display_pattern;
     uint16_t payment;
 }CompanySpecs;
 

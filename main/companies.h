@@ -10,6 +10,13 @@ typedef enum AD_TYPE
     NONE
 }AD_TYPE;
 
+typedef enum DISPLAY_PATTERN
+{
+    RANDOM,
+    EVEN_MINUTES,
+    NONE
+}DISPLAY_PATTERN;
+
 typedef struct Ad_data
 {
     const char* ad_text;
@@ -19,10 +26,11 @@ typedef struct Ad_data
 typedef struct Company
 {
     const char* company_name;
-    Ad_data ad_data[2];
+    Ad_data ad_data[3];
     uint32_t paid_amount;
     uint8_t ad_size;
     uint8_t ad_size_max;
+    DISPLAY_PATTERN display_pattern;
 }Company;
 
 void company_init(Company*);
