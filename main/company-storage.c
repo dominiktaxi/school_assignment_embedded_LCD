@@ -15,7 +15,7 @@ STATUS_T companyStorage_init(CompanyData* companyData)
 
 STATUS_T companyStorage_add(CompanyData* companyData, Company company)
 {
-    if(companyData->size >= companyData->capacity) return OUT_OF_SPACE;
+    if(companyData->size >= companyData->capacity){ printf("HERE\n"); return OUT_OF_SPACE; }
     for(int i = 0; i < companyData->size; i++)
     {
         for(int j = 0; j < strlen(company.company_name); j++)

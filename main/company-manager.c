@@ -1,28 +1,6 @@
 #include "company-manager.h"
 #include <string.h>
-
-static void printToLCD(Company* company, CompanyManager* manager)
-{
-    adDisplayer_print( &manager->adDisplayer, company );
-}
-
-static Company* weightedByPaymentSelector(const CompanyData* data, uint32_t(*callback)(void*))
-{
-    uint32_t random = callback(data);
-    uint32_t accumulated = data->accumulated_pay;
-    uint32_t weight = 0;
-
-    for(int i = 0; i < data->size; i++)
-    {
-        weight = data->companies[i].paid_amount;
-        if(weight > random)
-        {
-            return &data->companies[i];
-        }
-        random -= weight;
-    }
-    return NULL;
-}
+#include <assert.h>
 
 
 void companyManager_init(CompanyManager* manager)
@@ -47,6 +25,10 @@ STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name,
         return STRING_TOO_LONG;
     }
     if(ad_text2 != NULL && strlen(ad_text2) > AD_STR_SIZE_MAX)
+    {
+        return STRING_TOO_LONG;
+    }
+     if(ad_text3 != NULL && strlen(ad_text3) > AD_STR_SIZE_MAX)
     {
         return STRING_TOO_LONG;
     }
@@ -87,10 +69,37 @@ STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name,
     return companyStorage_add(&manager->companyData, company);
 }
 
-void companyManager_weightedRandomized(CompanyManager* manager, RandomNumberGenerator generator, void* data)
+Company* companyManager_selectWeightedCompany(CompanyManager* manager, RandomNumberGenerator generator, GetTime time)
 {
-    Company* company = weightedByPaymentSelector(&manager->companyData, generator);
-    printToLCD(company, manager);
+    uint32_t random = generator() % manager->companyData.accumulated_pay;
+    uint32_t weight = 0;
+    uint32_t timeInMinutes = (uint32_t)(time() / 60);
+    for(int i = 0; i < manager->companyData.size; i++)
+    {
+        weight = manager->companyData.companies[i].paid_amount;
+        if(weight > random)
+        {
+            if(manager->companyData.companies->display_pattern == EVEN_MINUTES)
+            {
+                if(timeInMinutes % 2 == 1)
+                {
+                    manager->companyData.companies[i].indexOfadToPrint = 0;
+                }
+                else
+                {
+                    manager->companyData.companies[i].indexOfadToPrint = 1;
+                }
+            }
+            else if(manager->companyData.companies->display_pattern == RANDOM)
+            {
+                manager->companyData.companies[i].indexOfadToPrint = (uint8_t)(generator() % manager->companyData.companies[i].ad_size);
+            }
+            
+            return &manager->companyData.companies[i];
+        }
+        random -= weight;
+    }
+    return NULL;
 }
 
 int64_t getTimeUs(int64_t(*callback)(void) )

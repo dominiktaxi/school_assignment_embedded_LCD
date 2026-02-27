@@ -14,7 +14,7 @@ typedef enum DISPLAY_PATTERN
 {
     RANDOM,
     EVEN_MINUTES,
-    NONE
+    NO_PATTERN
 }DISPLAY_PATTERN;
 
 typedef struct Ad_data
@@ -31,6 +31,7 @@ typedef struct Company
     uint8_t ad_size;
     uint8_t ad_size_max;
     DISPLAY_PATTERN display_pattern;
+    uint8_t indexOfadToPrint;
 }Company;
 
 void company_init(Company*);

@@ -24,5 +24,6 @@ typedef struct Setup
 }Setup;
 
 void setup_init(Application*);
+void setup_run(Application*);
 
 #endif

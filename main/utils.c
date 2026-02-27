@@ -21,13 +21,17 @@ void swap(uint8_t* a, uint8_t* b)
 }
 
 
-uint32_t espRandom(void* data)
+uint32_t espRandom(void)
 {
-    CompanyData* companyData = data;
-    return esp_random() % companyData->accumulated_pay;
+    return esp_random();
 }
 
 int64_t getEspTimeUs()
 {
     return esp_timer_get_time();
+}
+
+int64_t getEspTimeSec()
+{
+    return (esp_timer_get_time() / 1000000);
 }
