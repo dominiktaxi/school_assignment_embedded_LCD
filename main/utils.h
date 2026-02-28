@@ -5,6 +5,7 @@
 void utils_toLower(const char**);
 void swap(uint8_t*, uint8_t*);
 uint32_t espRandom(void);
-int64_t getEspTimeUs();
-int64_t getEspTimeSec();
+int64_t getEspTimeUs(void);
+int64_t getEspTimeSec(void);
+int64_t getEspTimeMs(void);
 #endif

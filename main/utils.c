@@ -26,12 +26,17 @@ uint32_t espRandom(void)
     return esp_random();
 }
 
-int64_t getEspTimeUs()
+int64_t getEspTimeUs(void)
 {
     return esp_timer_get_time();
 }
 
-int64_t getEspTimeSec()
+int64_t getEspTimeSec(void)
 {
     return (esp_timer_get_time() / 1000000);
+}
+
+int64_t getEspTimeMs(void)
+{
+    return (esp_timer_get_time() / 1000);
 }

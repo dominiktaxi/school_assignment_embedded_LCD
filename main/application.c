@@ -13,11 +13,11 @@ void application_init(Application* app)
 
 STATUS_T application_addCompany(Application* app, const char* name, const char* ad1, const char* ad2, 
                                 const char* ad3, AD_TYPE t1, AD_TYPE t2, AD_TYPE t3, DISPLAY_PATTERN pattern, uint16_t payment)
-{
-    if(name != NULL && strlen(name) > 50) { return STRING_TOO_LONG; }
-    if(ad1 != NULL && strlen(ad1) > 50) { return STRING_TOO_LONG; }
-    if(ad2 != NULL && strlen(ad2) > 50) { return STRING_TOO_LONG; }
-    if(ad3 != NULL && strlen(ad3) > 50) { return STRING_TOO_LONG; }
+{                                       // -1 leaving space for NULL terminator '\0'
+    if(name != NULL && strlen(name) > COMPANY_STR_NAME_SIZE_MAX - 1) { return STRING_TOO_LONG; }
+    if(ad2 != NULL && strlen(ad2) > AD_STR_SIZE_MAX - 1) { return STRING_TOO_LONG; }
+    if(ad1 != NULL && strlen(ad1) > AD_STR_SIZE_MAX - 1) { return STRING_TOO_LONG; }
+    if(ad3 != NULL && strlen(ad3) > AD_STR_SIZE_MAX - 1) { return STRING_TOO_LONG; }
     return companyManager_insertCompany(&app->manager, name, ad1, ad2, ad3, t1, t2, t3, pattern, payment);
 }
 

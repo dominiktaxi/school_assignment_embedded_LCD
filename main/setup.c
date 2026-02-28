@@ -32,18 +32,18 @@ void setup_run(Application* app)
 {
     while(1)
     {
-        application_updateTime(app, getEspTimeSec);
-        application_setStartTime(app, getEspTimeSec);
+        application_updateTime(app, getEspTimeMs);
+        application_setStartTime(app, getEspTimeMs);
         const int64_t* currentTime = application_currentTime(app);
         const int64_t* startTime = application_startTime(app);
 
-        application_setRandomCompany(app, espRandom, getEspTimeSec);
+        application_setRandomCompany(app, espRandom, getEspTimeMs);
         application_resetAdDisplayer(app);
-        while(*currentTime < *startTime + 30)
+        while(*currentTime < *startTime + 30000)
         {
-            application_updateTime(app, getEspTimeSec);
+            application_updateTime(app, getEspTimeMs);
             application_displayAd(app);
-            vTaskDelay(100);
+            vTaskDelay(10);
         }
     }
 }
