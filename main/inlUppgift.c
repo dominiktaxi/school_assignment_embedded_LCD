@@ -18,13 +18,6 @@ void app_main(void)
    static Application app;
    setup_init(&app);
    setup_run(&app);
-   
-
-   
-   // while(1)
-   // {
-   //    setup_run(&app);
-   // }
 }
 
 

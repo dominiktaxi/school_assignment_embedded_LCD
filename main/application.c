@@ -6,9 +6,9 @@
 void application_init(Application* app)
 {
     companyManager_init(&app->manager);
-    adDisplayer_init(&app->adDisplayer);
+    adDisplayer_init(&app->adDisplayer, &app->currentTime);
     app->company = NULL;
-    app->company = 0;
+    app->firstRandomDone = false;
 }
 
 STATUS_T application_addCompany(Application* app, const char* name, const char* ad1, const char* ad2, 
@@ -28,7 +28,20 @@ void application_printCompanies(const Application* app)
 
 void application_setRandomCompany(Application* app, RandomNumberGenerator generator, GetTime time)
 {
-    app->company = companyManager_selectWeightedCompany(&app->manager, generator, time);
+    if(!app->firstRandomDone) 
+    {
+        app->company = companyManager_selectWeightedCompany(&app->manager, generator, time);
+        app->firstRandomDone = true;
+    }
+    else
+    {
+        Company* company = companyManager_selectWeightedCompany(&app->manager, generator, time);
+        while(app->company == company)
+        {
+            company = companyManager_selectWeightedCompany(&app->manager, generator, time);
+        }
+        app->company = company;
+    }
 }
 
 void application_displayAd(Application* app)
@@ -39,29 +52,29 @@ void application_displayAd(Application* app)
 
 void application_updateTime(Application* app, int64_t(*callback)(void))
 {
-    app->adDisplayer.currentTime = callback();
+    app->currentTime = callback();
 }
 
 void application_setStartTime(Application* app, int64_t(*callback)(void))
 {
-    app->adDisplayer.startTime = callback();
+    app->startTime = callback();
 }
 
 void application_resetAdDisplayer(Application* app)
 {
-    adDisplayer_clearBuffer(&app->adDisplayer);
-    strcpy(app->adDisplayer.ad, app->company->ad_data[ app->company->indexOfadToPrint ].ad_text);
+    adDisplayer_reset(&app->adDisplayer, app->company);
+    //strcpy(app->adDisplayer.ad, app->company->ad_data[ app->company->indexOfadToPrint ].ad_text);
     app->adDisplayer.index = 0;
 }
 
 const int64_t* application_currentTime(const Application* app)
 {
-    return &app->adDisplayer.currentTime;
+    return &app->currentTime;
 }
 
 const int64_t* application_startTime(const Application* app)
 {
-    return &app->adDisplayer.startTime;
+    return &app->startTime;
 }
 
 void application_print(Application* app)

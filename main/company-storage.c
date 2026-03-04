@@ -10,6 +10,10 @@ STATUS_T companyStorage_init(CompanyData* companyData)
     companyData->accumulated_pay = 0;
     companyData->size = 0;
     companyData->capacity = (uint8_t)(sizeof(companyData->companies) / sizeof(companyData->companies[0]));
+    for(int i = 0; i < COMPANIES_MAX; i++)
+    {
+        company_init(&companyData->companies[i]);
+    }
     return SUCCESS;
 }
 

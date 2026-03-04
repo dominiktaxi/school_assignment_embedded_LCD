@@ -15,17 +15,19 @@ typedef enum
 typedef struct AdDisplayer
 {
     LcdScreen screen;
-    int64_t startTime;
-    int64_t currentTime;
+    int64_t* currentTime;
     int64_t tempTime;
+    int64_t tempTime2;
+    int64_t tempTime3;
     uint8_t index;
+    uint8_t splitIndex;
     bool flag;
-    bool flag2;
-    char ad[AD_STR_SIZE_MAX];
-    char adBuffer[LCD_CHAR_SIZE + 1]; //+1 for null terminator
-    char nameBuffer[LCD_CHAR_SIZE + 1]; //+1 for null terminator
+    bool on;
+    //char ad[AD_STR_SIZE_MAX];
+    char adBuffer[AD_STR_SIZE_MAX + 2]; //+2 for \0\0
+    char nameBuffer[COMPANY_STR_NAME_SIZE_MAX + 2]; //+2 for \0\0
 }AdDisplayer;
-void adDisplayer_init(AdDisplayer*);
+void adDisplayer_init(AdDisplayer*, int64_t*);
 void adDisplayer_print(AdDisplayer*, Company* );
-void adDisplayer_clearBuffer(AdDisplayer*);
+void adDisplayer_reset(AdDisplayer*, Company*);
 #endif

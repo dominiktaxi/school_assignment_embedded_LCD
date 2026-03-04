@@ -11,6 +11,113 @@
 
 #define RW 0 // read/write 0 = write, 1 = read
 
+
+
+static void start(const LcdScreen* screen)
+{
+    gpio_set_level(screen->SDA, 1);
+    esp_rom_delay_us(10);
+    gpio_set_level(screen->SCL, 1);
+    esp_rom_delay_us(10);
+    gpio_set_level(screen->SDA, 0);
+    esp_rom_delay_us(10);
+    gpio_set_level(screen->SCL, 0);
+    
+}
+
+static void stop(const LcdScreen* screen)
+{
+    gpio_set_level(screen->SDA, 0);
+    esp_rom_delay_us(10);
+    gpio_set_level(screen->SCL, 1);
+    esp_rom_delay_us(10);
+    gpio_set_level(screen->SDA, 1);
+    esp_rom_delay_us(10);
+}
+
+static void i2c_pin_init(const LcdScreen* screen)
+{
+    gpio_set_direction(screen->SDA, GPIO_MODE_INPUT_OUTPUT_OD);
+    gpio_set_direction(screen->SCL, GPIO_MODE_INPUT_OUTPUT_OD);
+    gpio_set_pull_mode(screen->SDA, GPIO_PULLUP_ONLY);
+    gpio_set_pull_mode(screen->SCL, GPIO_PULLUP_ONLY);
+    gpio_set_level(screen->SDA, 1);
+    gpio_set_level(screen->SCL, 1);
+}
+
+
+static uint8_t send_byte_get_ack(const LcdScreen* screen, unsigned char byte)
+{
+    gpio_set_level(screen->SCL, 0);
+    esp_rom_delay_us(10);
+    for(int i = 0; i < 8; i++)
+    {
+        esp_rom_delay_us(10);
+        gpio_set_level(screen->SDA, (byte >> ( 7 - i )) & 1);
+        esp_rom_delay_us(10);
+        gpio_set_level(screen->SCL, 1);
+        esp_rom_delay_us(10);
+        gpio_set_level(screen->SCL, 0);
+        esp_rom_delay_us(10);
+        //printf("%d ", (byte >> ( 7 - i )) & 1);
+        esp_rom_delay_us(10);
+    }
+   
+
+    //printf("\n");
+    gpio_set_level(screen->SDA, 1);
+    
+    gpio_set_level(screen->SCL, 1);
+    esp_rom_delay_us(10);
+    uint8_t ACK = (gpio_get_level(screen->SDA) == 0);
+    esp_rom_delay_us(10);
+    gpio_set_level(screen->SCL, 0);
+    
+    return ACK;
+}
+
+static void lcd_init_sequence(const LcdScreen* screen)
+{
+    send_byte_get_ack(screen, 0b00011100);
+    send_byte_get_ack(screen, 0b00011000);
+    esp_rom_delay_us(5000);
+    send_byte_get_ack(screen, 0b00011100);
+    send_byte_get_ack(screen, 0b00011000);
+    esp_rom_delay_us(5000);
+    send_byte_get_ack(screen, 0b00011100);
+    send_byte_get_ack(screen, 0b00011000);
+    esp_rom_delay_us(5000);
+    send_byte_get_ack(screen, 0b00101100);
+    send_byte_get_ack(screen, 0b00101000);
+    esp_rom_delay_us(5000);
+    send_byte_get_ack(screen, 0b00101100);
+    send_byte_get_ack(screen, 0b00101000);
+    send_byte_get_ack(screen, 0b10001100);
+    send_byte_get_ack(screen, 0b10001000);
+    esp_rom_delay_us(5000);
+    send_byte_get_ack(screen, 0b00001100);
+    send_byte_get_ack(screen, 0b00001000);
+    send_byte_get_ack(screen, 0b10001100);
+    send_byte_get_ack(screen, 0b10001000);
+    esp_rom_delay_us(50000);
+    send_byte_get_ack(screen, 0b00001100);
+    send_byte_get_ack(screen, 0b00001000);
+    send_byte_get_ack(screen, 0b00011100);
+    send_byte_get_ack(screen, 0b00011000);
+    esp_rom_delay_us(5000);
+    send_byte_get_ack(screen, 0b00001100);
+    send_byte_get_ack(screen, 0b00001000);
+    send_byte_get_ack(screen, 0b01101100);
+    send_byte_get_ack(screen, 0b01101000);
+    esp_rom_delay_us(5000);
+    send_byte_get_ack(screen, 0b00001100);
+    send_byte_get_ack(screen, 0b00001000);
+    send_byte_get_ack(screen, 0b11001100);
+    send_byte_get_ack(screen, 0b11001000);
+    esp_rom_delay_us(5000);
+}
+
+
 static int i2c_init_core(LcdScreen* screen, gpio_num_t SDA, gpio_num_t SCL, uint8_t adress)
 {
     screen->SDA = SDA;
@@ -55,69 +162,11 @@ static int pulse_byte(const LcdScreen* screen, uint8_t byte, uint8_t cmd)
     return 1;
 }
 
-static void start(const LcdScreen* screen)
-{
-    gpio_set_level(screen->SDA, 1);
-    esp_rom_delay_us(10);
-    gpio_set_level(screen->SCL, 1);
-    esp_rom_delay_us(10);
-    gpio_set_level(screen->SDA, 0);
-    esp_rom_delay_us(10);
-    gpio_set_level(screen->SCL, 0);
-    
-}
-
-static void stop(const LcdScreen* screen)
-{
-    gpio_set_level(screen->SDA, 0);
-    esp_rom_delay_us(10);
-    gpio_set_level(screen->SCL, 1);
-    esp_rom_delay_us(10);
-    gpio_set_level(screen->SDA, 1);
-    esp_rom_delay_us(10);
-}
-
-static uint8_t send_byte_get_ack(const LcdScreen* screen, unsigned char byte)
-{
-    gpio_set_level(screen->SCL, 0);
-    esp_rom_delay_us(10);
-    for(int i = 0; i < 8; i++)
-    {
-        esp_rom_delay_us(10);
-        gpio_set_level(screen->SDA, (byte >> ( 7 - i )) & 1);
-        esp_rom_delay_us(10);
-        gpio_set_level(screen->SCL, 1);
-        esp_rom_delay_us(10);
-        gpio_set_level(screen->SCL, 0);
-        esp_rom_delay_us(10);
-        //printf("%d ", (byte >> ( 7 - i )) & 1);
-        esp_rom_delay_us(10);
-    }
-   
-
-    //printf("\n");
-    gpio_set_level(screen->SDA, 1);
-    
-    gpio_set_level(screen->SCL, 1);
-    esp_rom_delay_us(10);
-    uint8_t ACK = (gpio_get_level(screen->SDA) == 0);
-    esp_rom_delay_us(10);
-    gpio_set_level(screen->SCL, 0);
-    
-    return ACK;
-}
 
 
 
-static void i2c_pin_init(const LcdScreen* screen)
-{
-    gpio_set_direction(screen->SDA, GPIO_MODE_INPUT_OUTPUT_OD);
-    gpio_set_direction(screen->SCL, GPIO_MODE_INPUT_OUTPUT_OD);
-    gpio_set_pull_mode(screen->SDA, GPIO_PULLUP_ONLY);
-    gpio_set_pull_mode(screen->SCL, GPIO_PULLUP_ONLY);
-    gpio_set_level(screen->SDA, 1);
-    gpio_set_level(screen->SCL, 1);
-}
+
+
 
 
 
@@ -126,46 +175,7 @@ static void release(uint8_t pin)
     gpio_set_level(pin, 1);
 }
 
-static void lcd_init_sequence(const LcdScreen* screen)
-{
-    send_byte_get_ack(screen, 0b00011100);
-    send_byte_get_ack(screen, 0b00011000);
-    esp_rom_delay_us(5000);
-    send_byte_get_ack(screen, 0b00011100);
-    send_byte_get_ack(screen, 0b00011000);
-    esp_rom_delay_us(5000);
-    send_byte_get_ack(screen, 0b00011100);
-    send_byte_get_ack(screen, 0b00011000);
-    esp_rom_delay_us(5000);
-    send_byte_get_ack(screen, 0b00101100);
-    send_byte_get_ack(screen, 0b00101000);
-    esp_rom_delay_us(5000);
-    send_byte_get_ack(screen, 0b00101100);
-    send_byte_get_ack(screen, 0b00101000);
-    send_byte_get_ack(screen, 0b10001100);
-    send_byte_get_ack(screen, 0b10001000);
-    esp_rom_delay_us(5000);
-    send_byte_get_ack(screen, 0b00001100);
-    send_byte_get_ack(screen, 0b00001000);
-    send_byte_get_ack(screen, 0b10001100);
-    send_byte_get_ack(screen, 0b10001000);
-    esp_rom_delay_us(50000);
-    send_byte_get_ack(screen, 0b00001100);
-    send_byte_get_ack(screen, 0b00001000);
-    send_byte_get_ack(screen, 0b00011100);
-    send_byte_get_ack(screen, 0b00011000);
-    esp_rom_delay_us(5000);
-    send_byte_get_ack(screen, 0b00001100);
-    send_byte_get_ack(screen, 0b00001000);
-    send_byte_get_ack(screen, 0b01101100);
-    send_byte_get_ack(screen, 0b01101000);
-    esp_rom_delay_us(5000);
-    send_byte_get_ack(screen, 0b00001100);
-    send_byte_get_ack(screen, 0b00001000);
-    send_byte_get_ack(screen, 0b11001100);
-    send_byte_get_ack(screen, 0b11001000);
-    esp_rom_delay_us(5000);
-}
+
 
 
 

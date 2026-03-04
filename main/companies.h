@@ -32,6 +32,8 @@ typedef struct Company
     uint8_t ad_size_max;
     DISPLAY_PATTERN display_pattern;
     uint8_t indexOfadToPrint;
+    uint8_t nameSplitIndex;
+    uint8_t adSplitIndex;
 }Company;
 
 void company_init(Company*);

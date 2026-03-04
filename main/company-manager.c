@@ -6,7 +6,6 @@
 void companyManager_init(CompanyManager* manager)
 {
     companyStorage_init(&manager->companyData);
-    adDisplayer_init(&manager->adDisplayer);
 }
 
 STATUS_T companyManager_insertCompany(CompanyManager* manager, const char* name, const char* ad_text1, const char* ad_text2, 
@@ -73,7 +72,7 @@ Company* companyManager_selectWeightedCompany(CompanyManager* manager, RandomNum
 {
     uint32_t random = generator() % manager->companyData.accumulated_pay;
     uint32_t weight = 0;
-    uint32_t timeInMinutes = (uint32_t)(time() / 60);
+    uint32_t timeInMinutes = (uint32_t)(time() / 60000);
     for(int i = 0; i < manager->companyData.size; i++)
     {
         weight = manager->companyData.companies[i].paid_amount;

@@ -8,6 +8,9 @@ typedef struct Application
     CompanyManager manager;
     AdDisplayer adDisplayer;
     Company* company;
+    int64_t startTime;
+    int64_t currentTime;
+    bool firstRandomDone;
     
 }Application;
 

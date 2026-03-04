@@ -8,7 +8,6 @@
 typedef struct CompanyManager
 {
     CompanyData companyData;
-    AdDisplayer adDisplayer;
 }CompanyManager;
 void companyManager_init(CompanyManager*);
 STATUS_T companyManager_insertCompany(CompanyManager*, const char*, const char*, const char*, const char*, AD_TYPE, AD_TYPE, AD_TYPE, DISPLAY_PATTERN, uint16_t);

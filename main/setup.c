@@ -8,11 +8,11 @@ void setup_init(Application* app)
     application_init(app);
     static const CompanySpecs specs[] =
     {
-       {"Hederlige Harrys Bilar", "Kop bil hos Harry", STATIC, "En god bilaffar! (for Harry!)", SCROLLING, "Hederlige Harrys Bilar", BLINKING, RANDOM, 5},
-       {"Farmor Ankas Pajer AB", "Kop paj hos Farmor Anka", SCROLLING, "Skynda innan Marten atit alla pajer", SCROLLING, NULL, NONE, RANDOM, 100000},
-       {"Svarte Petters Svartbyggen", "Lat Petter bygga at dig", SCROLLING, "Bygga svart? Ring Petter", STATIC, NULL, NONE, EVEN_MINUTES, 1},
-       {"Langbens detektivbyra", "Mysterier? Ring Langben", STATIC, "Langben fixar biffen", STATIC, NULL, NONE, RANDOM, 1},
-       {"Egen reklam", "Synas har? IOT:s Reklambyra", STATIC, NULL, NONE, NULL, NONE, NO_PATTERN, 1},
+       {"Hederlige Harrys bilar", "Kop bil hos Harry", SCROLLING, "En god bilaffar! (for Harry!)", STATIC, "Hederlige Harrys Bilar", BLINKING, RANDOM, 5000},
+       {"Farmor Ankas Pajer AB", "Kop paj hos Farmor Anka", SCROLLING, "Skynda innan Marten atit alla pajer", STATIC, NULL, NONE, RANDOM, 3000},
+       {"Svarte Petters Svartbyggen", "Lat Petter bygga at dig", SCROLLING, "Bygga svart? Ring Petter", STATIC, NULL, NONE, EVEN_MINUTES, 1500},
+       {"Langbens detektivbyra", "Mysterier? Ring Langben", STATIC, "Langben fixar biffen", STATIC, NULL, NONE, RANDOM, 4000},
+       {"IOT:s REKLAMBYRA ANNONSERA HAR", "Synas har? IOT:s Reklambyra", STATIC, NULL, NONE, NULL, NONE, RANDOM, 1000},
     };
     
     STATUS_T status;
@@ -26,7 +26,12 @@ void setup_init(Application* app)
                 errorHandler_printErrors(status, specs[i].companyName);
             }
     }
-}
+}//bygga svart 0
+//bygga svart 1
+//lat petter bygga at dig 2
+//lat petter bygga at dig 2
+//bygga svart 3
+
 
 void setup_run(Application* app)
 {
@@ -39,7 +44,7 @@ void setup_run(Application* app)
 
         application_setRandomCompany(app, espRandom, getEspTimeMs);
         application_resetAdDisplayer(app);
-        while(*currentTime < *startTime + 30000)
+        while(*currentTime < *startTime + 20000)
         {
             application_updateTime(app, getEspTimeMs);
             application_displayAd(app);
