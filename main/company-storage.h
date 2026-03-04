@@ -18,6 +18,6 @@ typedef struct CompanyData
 STATUS_T companyStorage_init(CompanyData*);
 STATUS_T companyStorage_add(CompanyData*, Company);
 
-void companyStorage_printAll(CompanyData*);
+
 
 #endif

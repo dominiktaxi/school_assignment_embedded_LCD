@@ -21,10 +21,7 @@ STATUS_T application_addCompany(Application* app, const char* name, const char* 
     return companyManager_insertCompany(&app->manager, name, ad1, ad2, ad3, t1, t2, t3, pattern, payment);
 }
 
-void application_printCompanies(const Application* app)
-{
-    companyManager_printCompanies(&app->manager);
-}
+
 
 void application_setRandomCompany(Application* app, RandomNumberGenerator generator, GetTime time)
 {
@@ -75,9 +72,4 @@ const int64_t* application_currentTime(const Application* app)
 const int64_t* application_startTime(const Application* app)
 {
     return &app->startTime;
-}
-
-void application_print(Application* app)
-{
-    
 }

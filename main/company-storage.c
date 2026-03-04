@@ -40,21 +40,4 @@ STATUS_T companyStorage_add(CompanyData* companyData, Company company)
 }
 
 
-void companyStorage_printAll(CompanyData* companyData)
-{
-    printf("Print All Companies:\n");
-    uint8_t maxAds = 0;
-    for(int i = 0; i < companyData->size; i++)
-    {
-        maxAds = companyData->companies[i].ad_size_max;
-        printf("Index: %d, Name: %s, Paid amount: %"PRIu32" \n", 
-        i, 
-        companyData->companies[i].company_name,
-        companyData->companies[i].paid_amount);
-        for(int j = 0; j < maxAds; j++)
-        {
-            if(companyData->companies[i].ad_data[j].ad_text != NULL) {printf("AD%d: %s\n",j + 1 , companyData->companies[ i ].ad_data[ j ].ad_text); }
-        }
-    }
-    return;
-}
+

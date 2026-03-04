@@ -107,7 +107,3 @@ int64_t getTimeUs(int64_t(*callback)(void) )
 }
 
 
-void companyManager_printCompanies(CompanyManager* manager)
-{
-    companyStorage_printAll(&manager->companyData);
-}

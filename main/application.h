@@ -24,6 +24,5 @@ void application_setStartTime(Application*, int64_t(*)(void));
 void application_resetAdDisplayer(Application*);
 const int64_t* application_currentTime(const Application*);
 const int64_t* application_startTime(const Application*);
-void application_print(Application*);
 
 #endif
