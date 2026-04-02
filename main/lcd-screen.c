@@ -166,19 +166,6 @@ static int pulse_byte(const LcdScreen* screen, uint8_t byte, uint8_t cmd)
 
 
 
-
-
-
-
-static void release(uint8_t pin) 
-{
-    gpio_set_level(pin, 1);
-}
-
-
-
-
-
 int lcd_init_adress(LcdScreen* screen, gpio_num_t SDA, gpio_num_t SCL, uint8_t adress)
 {
     return i2c_init_core(screen, SDA, SCL, adress);
@@ -193,7 +180,6 @@ int lcd_clear(const LcdScreen* screen)
 {
     uint8_t clear_cmd = 0b01;
     uint8_t cmd = 0b1100;
-    uint8_t byte = clear_cmd | (1 << 7); //set leftmost bit to 1 for command
     int ret = pulse_byte(screen, clear_cmd, cmd);
     esp_rom_delay_us(500000);
     return ret;

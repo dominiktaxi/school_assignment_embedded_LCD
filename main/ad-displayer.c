@@ -1,13 +1,7 @@
 #include "ad-displayer.h"
 #include <string.h>
 #include <inttypes.h>
-// TODO: scrollingText is a catastrophe! FIX IT! UNREADABLE, TERRIBLE !
-static bool isLongerThan(const char* thisChar, size_t thatNumber, size_t n)
-{
-    return strnlen(thisChar, n) > thatNumber;
-}
-// rokoke okorkeg\0okgr fojoe fiji ofko\0efok 
-//array must have 4 extra spaces for \0, metadata and \0\0
+
 static void splitArray(char* array, uint8_t size)
 {
     for(int i = LCD_CHAR_SIZE - 1; i < size; i += LCD_CHAR_SIZE)
@@ -57,7 +51,6 @@ static void scrollingText(AdDisplayer* adDisplayer, Company* company)
    
     if(*(adDisplayer->currentTime) >= adDisplayer->tempTime)
     {
-        //printf("Index: %u ,IT PRINTS %s\n", adDisplayer->index, adDisplayer->adBuffer);
         
         if(ad[ adDisplayer->index ] == '\0' || adDisplayer->flag == true)
         {
@@ -71,7 +64,6 @@ static void scrollingText(AdDisplayer* adDisplayer, Company* company)
             lcd_print(&adDisplayer->screen, adDisplayer->adBuffer, 1, 0);
             adDisplayer->index++;
         }
-        //printf("temptime: %"PRId64"\ncurrentTime: %"PRId64"\n", adDisplayer->tempTime, adDisplayer->currentTime);
         for(int i = 0; i < LCD_CHAR_SIZE - 1; i++)
         {
             adDisplayer->adBuffer[i] = adDisplayer->adBuffer[i + 1];
@@ -133,11 +125,7 @@ void adDisplayer_init(AdDisplayer* adDisplayer, int64_t* currentTime)
 
 void adDisplayer_print(AdDisplayer* adDisplayer, Company* company)
 {
-    //scrollingText(adDisplayer, "hello");
-    DISPLAY_PATTERN pattern = company->display_pattern;
     AD_TYPE adType = company->ad_data[ company->indexOfadToPrint ].type;
-    const char* name = company->company_name;
-    const char* text = company->ad_data[company->indexOfadToPrint].ad_text;
 
     if(*adDisplayer->currentTime >= adDisplayer->tempTime2)
     {
@@ -147,20 +135,14 @@ void adDisplayer_print(AdDisplayer* adDisplayer, Company* company)
     switch(adType)
     {
         case SCROLLING:
-        {
-            if(adDisplayer->currentTime >= adDisplayer->tempTime)
-            {
-                //printf("COMPANY NAME: %s, SCROLLING, AD: %s\n", name, text);
-            }
-            
+        {   
             scrollingText(adDisplayer, company);
             break;
         }
         case BLINKING:
         {
-            if(adDisplayer->currentTime > adDisplayer->tempTime)
+            if(*(adDisplayer->currentTime) > adDisplayer->tempTime)
             {
-                //printf("COMPANY NAME: %s, BLINKING, AD: %s\n", name, text);
                 blinkingText(adDisplayer, company);
                 adDisplayer->tempTime = *adDisplayer->currentTime + 1000;
             }
@@ -168,9 +150,8 @@ void adDisplayer_print(AdDisplayer* adDisplayer, Company* company)
         }
         case STATIC:
         {
-            if(adDisplayer->currentTime > adDisplayer->tempTime)
+            if(*(adDisplayer->currentTime) > adDisplayer->tempTime)
             {
-                //printf("COMPANY NAME: %s, STATIC, AD: %s\n", name, text);
                 staticText(adDisplayer, company);
                 adDisplayer->tempTime = *adDisplayer->currentTime + 1000;
             }
